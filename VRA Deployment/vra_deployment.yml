@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Authentication Module
+    zerto_authenticate: 
+      zvm_ipaddress: "enterZVMip"
+      zvm_username: "enterZVMuser"
+      zvm_password: "enterZVMpass"
+    register: zerto_apikey
+  
+  - name: Get x-zerto-session key 
+    set_fact: 
+      key: "{{ zerto_apikey['zerto_apikey'] }}"
+
+  - name: VRA deployment
+    zerto_vradeploy:
+        zvm_ipaddress: "enterZVMip"
+        session_key: "{{ key }}"
+        host_name: "enterHostname"
+        datastore_name: "enterVRAdatastore"
+        port_group: "enterVRAnetwork"
+        vra_group: "enterVRAgroup"
+        memory: "enterRAMinGB"
+        default_gateway: "enterVRAgateway"
+        subnet_mask: "enterVRAsubnet"
+        vraip_address: "enterVRAip"    
+    register: result
+
+  - name: Print Output 
+    debug: 
+      msg: "{{ result }}"
+
+  - pause: 
+      minutes: 1
+
+  - name: VRA deployment
+    zerto_vradeploy:
+        zvm_ipaddress: "enterZVMip"
+        session_key: "{{ key }}"
+        host_name: "enterHostname"
+        datastore_name: "enterVRAdatastore"
+        port_group: "enterVRAnetwork"
+        vra_group: "enterVRAgroup"
+        memory: "enterRAMinGB"
+        default_gateway: "enterVRAgateway"
+        subnet_mask: "enterVRAsubnet"
+        vraip_address: "enterVRAip"    
+    register: result
+
+  - name: Print Output 
+    debug: 
+      msg: "{{ result }}"
