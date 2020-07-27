@@ -1,4 +1,4 @@
-#Disclaimer
+# Disclaimer
 This script is an example script and is not supported under any Zerto support program or service. The author and Zerto further disclaim all implied warranties including, without
 limitation, any implied warranties of merchantability or of fitness for a particular purpose.
 
@@ -19,5 +19,5 @@ code must be the appropriate Ansible directory to run.
 # Script Requirements
 - ZVM IP, username, and password completed in YAML 
 
-#Example execution 
+# Example execution 
 ansible-playbook zerto_auth
