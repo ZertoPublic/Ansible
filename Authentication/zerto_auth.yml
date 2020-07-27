@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Authentication Module
+    zerto_authenticate: 
+      zvm_ipaddress: 'enterZVMip'
+      zvm_username: 'enterZVMuser'
+      zvm_password: 'enterZVMpass'
+    register: zerto_apikey
+
+  - name: Print Output 
+    debug: 
+      msg: "{{ zerto_apikey }}"
