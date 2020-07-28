@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Authentication Module
+    zerto_authenticate: 
+      zvm_ipaddress: "enterZVMip"
+      zvm_username: "enterZVMuser"
+      zvm_password: "enterZVMpass"
+    register: zerto_apikey
+  
+  - name: Get x-zerto-session key 
+    set_fact: 
+      key: "{{ zerto_apikey['zerto_apikey'] }}"
+  
+  - name: Apply Zerto License
+    apply_license: 
+      zvm_ipaddress: "enterZVMIp"
+      session_key: "{{ key }}"
+      license_key: "enterZERTOlicense"
+    register: output
