@@ -44,4 +44,5 @@ def main():
     module.exit_json(changed=True, zerto_apikey=returned_token)
 
 from ansible.module_utils.basic import *
-main()
+if __name__ == '__main__':
+    main()
