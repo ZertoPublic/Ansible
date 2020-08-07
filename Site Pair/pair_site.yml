@@ -1,0 +1,53 @@
+---
+- hosts: localhost
+  vars:
+    - remote_zvmip: "enterRemoteZVMip"
+    - zvm_user: "enterZVMusercreds"
+    - zvm_pass: "enterZVMuserpass"
+    - prod_zvmip: "enterProdZVMip"
+    - pairing_port: "enterPairingport"
+  
+  tasks:
+  - name: Remote Site Authentication 
+    zerto_authenticate: 
+      zvm_ipaddress: "{{ remote_zvmip }}"
+      zvm_username: "{{ zvm_user }}"
+      zvm_password: "{{ zvm_pass }}"
+    register: zerto_apikey
+  
+  - name: Set x-zerto-session key 
+    set_fact: 
+      key: "{{ zerto_apikey['zerto_apikey'] }}"
+  
+  - name: Generate Token 
+    get_sitetoken:
+      zvm_ipaddress: "{{ remote_zvmip }}"
+      session_key: "{{ key }}"
+    register: site_token
+  
+  - name: Set Token key 
+    set_fact: 
+      token: "{{ site_token['site_token'] }}"
+
+  - name: Production Site Authentication 
+    zerto_authenticate: 
+      zvm_ipaddress: "{{ prod_zvmip }}"
+      zvm_username: "{{ zvm_user }}"
+      zvm_password: "{{ zvm_pass }}"
+    register: zerto_apikey
+
+  - name: Set x-zerto-session key 
+    set_fact: 
+      key: "{{ zerto_apikey['zerto_apikey'] }}"
+  
+  - name: Pairing Sites 
+    pair_sites:
+      ip: "{{ prod_zvmip }}"
+      session_key: "{{ key }}" 
+      peer_siteip: "{{ remote_zvmip }}"
+      pairing_token: "{{ token }}"
+      port: "{{ pairing_port }}"
+    register: task
+
+
+  
