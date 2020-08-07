@@ -7,7 +7,7 @@ limitation, damages for loss of business profits, business interruption, loss of
 the sample scripts or documentation, even if the author or Zerto has been advised of the possibility of such damages. The entire risk arising out of the use or performance of 
 the sample scripts and documentation remains with you.
 
-# Ansible Authentication 
+# Ansible Apply License
 Ansible playbook to authenticate with Zerto ZVM, return x-zerto-session API key, and apply license. YAML file must be completed, and accompanying python
 code must be the appropriate Ansible directory to run. 
 
