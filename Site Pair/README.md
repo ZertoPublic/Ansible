@@ -13,7 +13,7 @@ x-zerto-session key, and pair sites using site pairint token YAML file must be c
 
 # Environment Requirements 
 - Python 3.7 
-- Network Access to Zerto Virtual Manager 
+- Network Access to Production and Remote Zerto Virtual Managers
 - Ansible 2.9 
 
 # Script Requirements
