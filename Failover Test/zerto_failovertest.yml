@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  vars:
+    zvmip_addr: "enterZVmIP"
+
+  tasks:
+  - name: Authentication Module
+    zerto_authenticate:
+      zvm_ipaddress: "{{ zvmip_addr }}"
+      zvm_username: "enterZVMuser"
+      zvm_password: "enterZVMpass"
+    register: zerto_apikey
+
+  - name: Get x-zerto-session key
+    set_fact:
+      key: "{{ zerto_apikey['zerto_apikey'] }}"
+
+  - name: Failover Test
+    zerto_failovertest:
+        vpg_name: "Enter VPG One"
+        zvm_ipaddress: "{{ zvmip_addr }}"
+        session_key: "{{ key }}"
+    register: task_id
+
+  - name: Boot Delay
+    pause:
+      minutes: 1
+
+  - name: Failover Test
+    zerto_failovertest:
+        vpg_name: " Enter VPG Two"
+        zvm_ipaddress: "{{ zvmip_addr }}"
+        session_key: "{{ key }}"
+    register: task_id
+
+  - name: Boot Delay
+    pause:
+      minutes: 2
+
+  - name: Failover Test
+    zerto_failovertest:
+        vpg_name: "Enter VPG Three"
+        zvm_ipaddress: "{{ zvmip_addr }}"
+        session_key: "{{ key }}"
+    register: task_id
+
+  - name: Boot Delay
+    pause:
+      minutes: 1
+
+  - name: Failover Test
+    zerto_failovertest:
+        vpg_name: "Enter VPG Four"
+        zvm_ipaddress: "{{ zvmip_addr }}"
+        session_key: "{{ key }}"
+    register: task_id
